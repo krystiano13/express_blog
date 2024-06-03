@@ -41,3 +41,12 @@ export async function createUser(
 export async function logIn(req: Request, res: Response) {
   return res.status(200).send({ message: "Logged In Successfully" });
 }
+
+export async function logOut(req: Request, res: Response) {
+  req.logout(function (err) {
+    if (err) {
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+  });
+  return res.status(200).send({ message: "Logged Out Successfully" });
+}
