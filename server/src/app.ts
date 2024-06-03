@@ -10,11 +10,11 @@ export function createApp() {
 
   app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: "http://localhost:4321",
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
       credentials: true,
     })
   );
 
-    return app;
+  return app;
 }
