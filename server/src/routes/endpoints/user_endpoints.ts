@@ -50,3 +50,11 @@ export async function logOut(req: Request, res: Response) {
   });
   return res.status(200).send({ message: "Logged Out Successfully" });
 }
+
+export async function status(req: Request, res: Response) {
+  if (req.session.passport) {
+    return res.status(200).send({ message: "Logged In" });
+  } else {
+    return res.status(403).send({ message: "Unauthorized" });
+  }
+}
