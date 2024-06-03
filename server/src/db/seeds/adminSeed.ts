@@ -1,3 +1,4 @@
+import { hashPassword } from "../../auth/hash";
 import { User } from "../schemas/userSchema";
 
 export async function seedAdmin() {
@@ -7,7 +8,7 @@ export async function seedAdmin() {
     const admin = new User({
       username: "Crystiano1210",
       email: "crystianotv@gmail.com",
-      password: process.env.PASSWORD || "password",
+      password: hashPassword(process.env.PASSWORD || "password"),
       role: "admin",
     });
 

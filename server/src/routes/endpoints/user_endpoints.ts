@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { User } from "../../db/schemas/userSchema";
 import { validationResult } from "express-validator";
+import { hashPassword } from "../../auth/hash";
 
 export async function createUser(
   req: Request<{}, {}, { username: string; email: string; password: string }>,
@@ -25,7 +26,7 @@ export async function createUser(
   const new_user = new User({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashPassword(req.body.password),
     role: "user",
   });
 
@@ -35,4 +36,8 @@ export async function createUser(
   } catch (e) {
     return res.status(500).send({ error: "Internal Server Error" });
   }
+}
+
+export async function logIn(req: Request, res: Response) {
+  return res.status(200).send({ message: "Logged In Successfully" });
 }

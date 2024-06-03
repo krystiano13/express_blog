@@ -4,7 +4,8 @@ import {
   validateUsername,
   validatePassword,
 } from "../validation/user_validation";
-import { createUser } from "./endpoints/user_endpoints";
+import { createUser, logIn } from "./endpoints/user_endpoints";
+import passport from "passport";
 
 const user_router = Router();
 
@@ -16,7 +17,7 @@ user_router.post(
   createUser
 );
 
-user_router.post("/api/auth/login");
+user_router.post("/api/auth/login", passport.authenticate("local"), logIn);
 
 user_router.post("/api/auth/logout");
 
