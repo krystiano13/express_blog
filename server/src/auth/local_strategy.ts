@@ -1,6 +1,7 @@
 import passport from "passport";
 import { User } from "../db/schemas/userSchema";
 import { Strategy } from "passport-local";
+import { comparePassword } from "./hash";
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -26,7 +27,8 @@ export default passport.use(
         const user = await User.findOne({ email: email });
 
         if (!user) throw new Error("User not found");
-        if (user.password !== password) throw new Error("Incorrect password");
+        if (!comparePassword(password, user.password))
+          throw new Error("Incorrect password");
 
         done(null, user);
       } catch (e) {
