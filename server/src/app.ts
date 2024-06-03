@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import "./auth/local_strategy";
 import MongoStore from "connect-mongo";
+import { user_router } from "./routes/user";
 
 export function createApp() {
   const app = express();
@@ -36,6 +37,8 @@ export function createApp() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(passport.authenticate("session"));
+
+  app.use(user_router);
 
   return app;
 }
