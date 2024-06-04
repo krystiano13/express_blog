@@ -57,4 +57,16 @@ export async function updatePost(req: Request, res: Response) {
   }
 }
 
-export async function deletePost(req: Request, res: Response) {}
+export async function deletePost(req: Request, res: Response) {
+  const post = await BlogPost.findById(req.params.id);
+  if (post) {
+    try {
+      await post.deleteOne();
+      return res.status(200).send({ message: "Post deleted" });
+    } catch (e) {
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+  } else {
+    return res.status(404).send({ error: "Post not found" });
+  }
+}
