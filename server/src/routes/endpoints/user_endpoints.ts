@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { User } from "../../db/schemas/userSchema";
 import { validationResult } from "express-validator";
 import { hashPassword } from "../../auth/hash";
+import { Session } from "express-session";
 
 export async function createUser(
   req: Request<{}, {}, { username: string; email: string; password: string }>,
@@ -52,7 +53,9 @@ export async function logOut(req: Request, res: Response) {
 }
 
 export async function status(req: Request, res: Response) {
-  if (req.session.passport) {
+  const { session }: { session: Session & Partial<{ passport: { email: string } }> } = req;
+
+  if (session.passport) {
     return res.status(200).send({ message: "Logged In" });
   } else {
     return res.status(403).send({ message: "Unauthorized" });
