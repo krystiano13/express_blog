@@ -31,12 +31,30 @@ export async function createPost(req: Request, res: Response) {
 
   try {
     new_post.save();
-    res.status(200).send({ message: "Post created", post: new_post });
+    return res.status(200).send({ message: "Post created", post: new_post });
   } catch (e) {
-    res.status(500).send({ error: "Internal Server Error" });
+    return res.status(500).send({ error: "Internal Server Error" });
   }
 }
 
-export async function updatePost(req: Request, res: Response) {}
+export async function updatePost(req: Request, res: Response) {
+  const post = await BlogPost.findById(req.params.id);
+
+  if (post) {
+    try {
+      const updatedPost = await post.updateOne({
+        title: req.body.title,
+        content: req.body.content,
+      });
+      return res
+        .status(200)
+        .send({ message: "Post updated", post: updatedPost });
+    } catch (e) {
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+  } else {
+    return res.status(404).send({ error: "Post not found" });
+  }
+}
 
 export async function deletePost(req: Request, res: Response) {}
