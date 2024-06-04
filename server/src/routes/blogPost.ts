@@ -11,7 +11,7 @@ import {
   validateDate,
   validateTitle,
 } from "../validation/blogpost_validation";
-import { loggedIn } from "../middleware/user";
+import { notLoggedIn, isAdmin } from "../middleware/user";
 
 const router = Router();
 
@@ -19,7 +19,8 @@ router.get("/api/posts", getPosts);
 router.get("/api/posts/:id", getPost);
 router.post(
   "/api/posts",
-  loggedIn,
+  notLoggedIn,
+  isAdmin,
   validateTitle,
   validateContent,
   validateDate,
@@ -27,12 +28,13 @@ router.post(
 );
 router.put(
   "/api/posts/:id",
-  loggedIn,
+  notLoggedIn,
+  isAdmin,
   validateTitle,
   validateContent,
   validateDate,
   updatePost
 );
-router.delete("/api/posts/:id", loggedIn, deletePost);
+router.delete("/api/posts/:id", notLoggedIn, isAdmin, deletePost);
 
 export { router as blogpost_router };

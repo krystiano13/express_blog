@@ -54,12 +54,20 @@ export async function logOut(req: Request, res: Response) {
 }
 
 export async function status(req: Request, res: Response) {
-  const { session }: { session: Session & Partial<{ passport: UserType }> } = req;
+  const {
+    session,
+  }: { session: Session & Partial<{ passport: { user: UserType } }> } = req;
 
   console.log(session.passport);
 
   if (session.passport) {
-    return res.status(200).send({ message: "Logged In" });
+    return res.status(200).send({
+      message: "Logged In",
+      user: {
+        email: session.passport.user.email,
+        username: session.passport.user.username,
+      },
+    });
   } else {
     return res.status(403).send({ message: "Unauthorized" });
   }

@@ -6,13 +6,13 @@ import {
 } from "../validation/user_validation";
 import { createUser, logIn, logOut, status } from "./endpoints/user_endpoints";
 import passport from "passport";
-import { notLoggedIn } from "../middleware/user";
+import { loggedIn } from "../middleware/user";
 
 const user_router = Router();
 
 user_router.post(
   "/api/auth/register",
-  notLoggedIn,
+  loggedIn,
   validateEmail,
   validatePassword,
   validateUsername,
@@ -21,7 +21,7 @@ user_router.post(
 
 user_router.post(
   "/api/auth/login",
-  notLoggedIn,
+  loggedIn,
   passport.authenticate("local"),
   logIn
 );

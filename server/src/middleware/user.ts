@@ -23,10 +23,12 @@ export function loggedIn(req: Request, res: Response, next: NextFunction) {
 }
 
 export function isAdmin(req: Request, res: Response, next: NextFunction) {
-  const { session }: { session: Session & Partial<{ passport: User }> } = req;
+  const {
+    session,
+  }: { session: Session & Partial<{ passport: { user: User } }> } = req;
 
   if (session.passport) {
-    if (session.passport.role !== "admin") {
+    if (session.passport.user.role !== "admin") {
       return res.status(403).send({ error: "Unauthorized" });
     }
   }
