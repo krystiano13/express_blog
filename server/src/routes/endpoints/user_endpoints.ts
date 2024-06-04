@@ -56,6 +56,8 @@ export async function logOut(req: Request, res: Response) {
 export async function status(req: Request, res: Response) {
   const { session }: { session: Session & Partial<{ passport: UserType }> } = req;
 
+  console.log(session.passport);
+
   if (session.passport) {
     return res.status(200).send({ message: "Logged In" });
   } else {

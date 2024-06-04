@@ -21,3 +21,15 @@ export function loggedIn(req: Request, res: Response, next: NextFunction) {
     next();
   }
 }
+
+export function isAdmin(req: Request, res: Response, next: NextFunction) {
+  const { session }: { session: Session & Partial<{ passport: User }> } = req;
+
+  if (session.passport) {
+    if (session.passport.role !== "admin") {
+      return res.status(403).send({ error: "Unauthorized" });
+    }
+  }
+
+  next();
+}
