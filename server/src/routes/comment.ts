@@ -10,6 +10,7 @@ import {
   getComments,
   createComment,
   updateComment,
+  deleteComment,
 } from "./endpoints/comment_endpoints";
 
 const router = Router();
@@ -34,7 +35,8 @@ router.delete(
   "/api/comments/:post_id/:id",
   notLoggedIn,
   checkPostID,
-  checkCommentID
+  checkCommentID,
+  deleteComment
 );
 
 export { router as comment_router };

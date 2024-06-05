@@ -52,3 +52,18 @@ export async function updateComment(req: Request, res: Response) {
     return res.status(404).send({ error: "Comment not found" });
   }
 }
+
+export async function deleteComment(req: Request, res: Response) {
+  const comment = await Comment.findById(req.params.id);
+
+  if (comment) {
+    try {
+      await comment.deleteOne();
+      return res.status(200).send({ message: "Comment deleted" });
+    } catch (e) {
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+  } else {
+    return res.status(404).send({ error: "Comment not found" });
+  }
+}
