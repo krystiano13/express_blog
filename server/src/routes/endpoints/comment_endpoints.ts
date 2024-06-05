@@ -8,5 +8,5 @@ export async function getComments(req: Request, res: Response) {
 }
 
 export async function createComment(req: Request, res: Response) { 
-
+    
 }
