@@ -6,7 +6,11 @@ import { checkPostID, checkCommentID } from "../middleware/comment";
 
 //endpoints
 import { notLoggedIn } from "../middleware/user";
-import { getComments, createComment } from "./endpoints/comment_endpoints";
+import {
+  getComments,
+  createComment,
+  updateComment,
+} from "./endpoints/comment_endpoints";
 
 const router = Router();
 
@@ -23,7 +27,8 @@ router.patch(
   notLoggedIn,
   checkPostID,
   checkCommentID,
-  validateText
+  validateText,
+  updateComment
 );
 router.delete(
   "/api/comments/:post_id/:id",

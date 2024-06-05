@@ -34,3 +34,21 @@ export async function createComment(req: Request, res: Response) {
     return res.status(500).send({ error: "Internal Server Error" });
   }
 }
+
+export async function updateComment(req: Request, res: Response) {
+  const comment = await Comment.findById(req.params.id);
+  if (comment) {
+    try {
+      const updatedComment = await comment.updateOne({
+        text: req.body.text,
+      });
+      return res
+        .status(200)
+        .send({ message: "Comment updated", comment: updatedComment });
+    } catch (e) {
+      return res.status(500).send({ error: "Internal Server Error" });
+    }
+  } else {
+    return res.status(404).send({ error: "Comment not found" });
+  }
+}
