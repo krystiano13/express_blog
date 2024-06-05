@@ -27,6 +27,7 @@ export async function createPost(req: Request, res: Response) {
     title: req.body.title,
     content: req.body.content,
     date: new Date(),
+    imagePath: req.file?.path || null,
   });
 
   try {
@@ -45,6 +46,7 @@ export async function updatePost(req: Request, res: Response) {
       const updatedPost = await post.updateOne({
         title: req.body.title,
         content: req.body.content,
+        imagePath: req.file?.path || post.imagePath,
       });
       return res
         .status(200)

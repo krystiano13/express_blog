@@ -15,7 +15,17 @@ import {
 import { notLoggedIn, isAdmin } from "../middleware/user";
 
 const router = Router();
-const upload = multer({ dest: "../../../uploads/" });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../uploads/");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/api/posts", getPosts);
 router.get("/api/posts/:id", getPost);
@@ -25,9 +35,8 @@ router.post(
   isAdmin,
   validateTitle,
   validateContent,
-  validateDate,
   upload.single("image"),
-  createPost,
+  createPost
 );
 router.put(
   "/api/posts/:id",
@@ -36,6 +45,7 @@ router.put(
   validateTitle,
   validateContent,
   validateDate,
+  upload.single("image"),
   updatePost
 );
 router.delete("/api/posts/:id", notLoggedIn, isAdmin, deletePost);
