@@ -1,21 +1,29 @@
 import { Router } from "express";
+import { validateText } from "../validation/comment_validation";
 
 //middleware
 import { checkPostID, checkCommentID } from "../middleware/comment";
 
 //endpoints
 import { notLoggedIn } from "../middleware/user";
-import { getComments } from "./endpoints/comment_endpoints";
+import { getComments, createComment } from "./endpoints/comment_endpoints";
 
 const router = Router();
 
 router.get("/api/comments/:post_id", notLoggedIn, checkPostID, getComments);
-router.post("/api/comments/:post_id", notLoggedIn, checkPostID);
+router.post(
+  "/api/comments/:post_id",
+  notLoggedIn,
+  checkPostID,
+  validateText,
+  createComment
+);
 router.patch(
   "/api/comments/:post_id/:id",
   notLoggedIn,
   checkPostID,
-  checkCommentID
+  checkCommentID,
+  validateText
 );
 router.delete(
   "/api/comments/:post_id/:id",
