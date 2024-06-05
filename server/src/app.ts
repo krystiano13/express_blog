@@ -8,6 +8,7 @@ import "./auth/local_strategy";
 import MongoStore from "connect-mongo";
 import { user_router } from "./routes/user";
 import { blogpost_router } from "./routes/blogPost";
+import { comment_router } from "./routes/comment";
 
 export function createApp() {
   const app = express();
@@ -41,6 +42,7 @@ export function createApp() {
 
   app.use(user_router);
   app.use(blogpost_router);
+  app.use(comment_router);
 
   return app;
 }

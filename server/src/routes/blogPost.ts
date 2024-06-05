@@ -1,4 +1,5 @@
 import { Router } from "express";
+import multer from "multer";
 import {
   getPost,
   getPosts,
@@ -14,6 +15,7 @@ import {
 import { notLoggedIn, isAdmin } from "../middleware/user";
 
 const router = Router();
+const upload = multer({ dest: "../../../uploads/" });
 
 router.get("/api/posts", getPosts);
 router.get("/api/posts/:id", getPost);
@@ -24,7 +26,8 @@ router.post(
   validateTitle,
   validateContent,
   validateDate,
-  createPost
+  upload.single("image"),
+  createPost,
 );
 router.put(
   "/api/posts/:id",
